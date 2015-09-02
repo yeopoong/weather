@@ -6,20 +6,31 @@
  *******************************************************************************/
 package com.brm.weather;
 
-import com.sun.org.apache.xpath.internal.XPathAPI;
-
+import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.traversal.NodeIterator;
+
+import com.sun.org.apache.xpath.internal.XPathAPI;
 
 public class WeatherExtractor {
 	/*
 	 * 주간 날씨 정보를 화면에 출력
 	 */
 	public void print(Document doc) throws TransformerException {
+		// Use a Transformer for output
+	    TransformerFactory tFactory = TransformerFactory.newInstance();
+	    Transformer transformer = tFactory.newTransformer();
+
+	    DOMSource source = new DOMSource(doc);
+	    StreamResult result = new StreamResult(System.out);
+	    transformer.transform(source, result);
+
 		// location 서울 엘리먼트 검색
 		String xpath = "//wid/body/location[@city='11B10101']";
 		NodeIterator locations = XPathAPI.selectNodeIterator(doc, xpath);
