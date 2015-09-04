@@ -14,7 +14,7 @@ public class SpringMain {
 	public static void main(String[] args) throws Exception {
 		SpringMain main = new SpringMain();
 		// EIP 경로 정의 Spring Framework XML
-		main.run("classpath:applicationContext.xml");
+		main.run("classpath:weatherContext.xml");
 	}
 
 	public void run(String conf) throws Exception {
