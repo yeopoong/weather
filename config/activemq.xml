@@ -9,7 +9,10 @@
 ">
 
 	<bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-		<property name="brokerURL" value="vm://localhost?broker.persistent=false" />
+<!-- 		
+		<property name="brokerURL" value="vm://localhost?broker.persistent=false" /> 
+-->
+		<property name="brokerURL" value="tcp://localhost:61616" />
 	</bean>
 
 	<bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory"
@@ -20,6 +23,9 @@
 
 	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
 		<property name="connectionFactory" ref="pooledConnectionFactory" />
+	</bean>
+
+	<bean id="testBean" class="link.TestBean">
 	</bean>
 
 	<camelContext xmlns="http://camel.apache.org/schema/spring">
@@ -40,6 +46,7 @@
 		<route>
 			<from uri="activemq:queue:out" />
 			<log message="Print the message from out to console"/>
+			<to uri="bean:testBean?method=hello" />
 			<to uri="stream:out" />
 		</route>
 
